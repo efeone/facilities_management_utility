@@ -45,3 +45,19 @@ def create_customer_from_qtn(doc, method):
         if contact:
             customer.contact_person = contact[0].parent
         customer.save()
+
+@frappe.whitelist()
+def get_auxiliary_item(template_name):
+    query = """
+        SELECT
+            item,
+            item_name,
+            separate_billable
+        FROM
+            `tabAuxiliary Item`
+        WHERE
+            parent = '{field}'
+    """.format(field = template_name)
+    aux_item = frappe.db.sql(query, as_dict = 1)
+    return aux_item
+
