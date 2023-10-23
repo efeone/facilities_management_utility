@@ -6,7 +6,6 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "desigination",
   "skill_category",
   "nationality",
   "gender",
@@ -42,13 +41,6 @@
    "label": "No of Resources"
   },
   {
-   "fieldname": "desigination",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Designation",
-   "options": "Designation"
-  },
-  {
    "fieldname": "item_code",
    "fieldtype": "Link",
    "label": "Item Code",
@@ -58,7 +50,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-10-23 05:53:14.229826",
+ "modified": "2023-10-23 19:54:38.728120",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Service Enquiry Item",
