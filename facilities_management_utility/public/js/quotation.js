@@ -12,6 +12,8 @@ frappe.ui.form.on('Quotation', {
 							var c = frm.add_child("items");
 							c.item_code = element.item;
                             c.item_name = element.item_name;
+                            c.description = element.description;
+                            c.uom = element.uom;
                             c.qty = 1;
 						});
 						refresh_field("items");
