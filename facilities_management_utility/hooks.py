@@ -118,13 +118,11 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Quotation": {
+		"on_submit": "facilities_management_utility.facilities_management_utility.doc_event.quotation.create_customer_from_qtn",
+	}
+}
 
 # Scheduled Tasks
 # ---------------
