@@ -104,6 +104,8 @@ def create_contract_from_qtn(doc, customer):
                 'item': item.item_code,
             })
         contract.save(ignore_permissions=True)
+        if contract.name:
+            create_proejct_from_contarct(contract)
 
 
 @frappe.whitelist()
@@ -167,4 +169,14 @@ def _set_missing_values(source, target):
 
 	if contact:
 		target.contact_person = contact[0].parent
+
+def create_proejct_from_contarct(contract):
+     if contract:
+        project = frappe.new_doc('Project')
+        project.customer = contract.party_name
+        project.project_name = 'Project' + contract.party_name
+        project.expected_start_date = contract.start_date
+        project.expected_end_date = contract.end_date
+        project.save(ignore_permissions=True)
+
 
