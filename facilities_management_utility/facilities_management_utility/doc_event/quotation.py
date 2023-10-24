@@ -175,6 +175,7 @@ def create_proejct_from_contarct(contract):
      if contract:
         project = frappe.new_doc('Project')
         project.customer = contract.party_name
+        project.custom_contract = contract.name
         project.project_name = 'Project' + contract.party_name
         project.expected_start_date = contract.start_date
         project.expected_end_date = contract.end_date
