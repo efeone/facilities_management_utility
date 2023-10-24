@@ -20,7 +20,7 @@ from frappe.utils import (
 
 @frappe.whitelist()
 def create_customer_from_qtn(doc, method):
-    if doc.status == 'Client Accepted':
+    if doc.workflow_state == 'Client Accepted':
         if doc.quotation_to == 'Lead':
             lead = frappe.get_doc('Lead', doc.party_name)
             customer = frappe.new_doc('Customer')
