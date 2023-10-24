@@ -99,4 +99,72 @@ def create_contract_from_qtn(doc, customer):
             contract.end_date = add_years(today(), 5)
         contract.contract_template = doc.custom_contract_template
         contract.contract_terms = frappe.get_value('Contract Template', contract.contract_template, 'contract_terms')
+        for item in doc.items:
+            contract.append('custom_items', {
+                'item': item.item_code,
+            })
         contract.save(ignore_permissions=True)
+
+
+@frappe.whitelist()
+def make_quotation(source_name, target_doc=None):
+	def set_missing_values(source, target):
+		_set_missing_values(source, target)
+
+	target_doc = get_mapped_doc(
+		"Lead",
+		source_name,
+		{
+			"Lead": {"doctype": "Quotation", "field_map": {"name": "party_name"}},
+			"Service Enquiry Item": {
+				"doctype": "Quotation Item",
+				"field_map": {
+					"parent": "prevdoc_docname",
+					"parenttype": "prevdoc_doctype",
+					'item_code':'item_code',
+					'no_of_resources':'qty'
+				},
+				"add_if_empty": True,
+			},
+		},
+		target_doc,
+		set_missing_values,
+	)
+	# source_doc = frappe.get_doc('Lead', source_name)
+
+	target_doc.quotation_to = "Lead"
+	target_doc.run_method("set_missing_values")
+	target_doc.run_method("set_other_charges")
+	target_doc.run_method("calculate_taxes_and_totals")
+
+	return target_doc
+
+def _set_missing_values(source, target):
+	address = frappe.get_all(
+		"Dynamic Link",
+		{
+			"link_doctype": source.doctype,
+			"link_name": source.name,
+			"parenttype": "Address",
+		},
+		["parent"],
+		limit=1,
+	)
+
+	contact = frappe.get_all(
+		"Dynamic Link",
+		{
+			"link_doctype": source.doctype,
+			"link_name": source.name,
+			"parenttype": "Contact",
+		},
+		["parent"],
+		limit=1,
+	)
+
+	if address:
+		target.customer_address = address[0].parent
+
+	if contact:
+		target.contact_person = contact[0].parent
+
