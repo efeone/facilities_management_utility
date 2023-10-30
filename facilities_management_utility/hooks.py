@@ -125,7 +125,10 @@ doctype_js = {
 doc_events = {
 	"Quotation": {
 		"on_submit": "facilities_management_utility.facilities_management_utility.doc_event.quotation.create_customer_from_qtn",
-	}
+	},
+	"Lead":{
+		"validate": 'facilities_management_utility.facilities_management_utility.doc_event.lead.update_on_items'
+	},
 }
 
 # Scheduled Tasks

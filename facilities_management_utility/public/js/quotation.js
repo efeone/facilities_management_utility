@@ -15,6 +15,10 @@ frappe.ui.form.on('Quotation', {
                             c.description = element.description;
                             c.uom = element.uom;
                             c.qty = 1;
+                            c.rate = element.rate;
+                            c.amount = c.qty * c.rate;
+                            c.custom_is_billable = element.separate_billable;
+                            c.custom_is_auxiliary_item = true;
 						});
 						refresh_field("items");
                    }

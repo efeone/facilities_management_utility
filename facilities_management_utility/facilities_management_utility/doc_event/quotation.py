@@ -71,7 +71,8 @@ def get_auxiliary_item(template_name):
             item_name,
             separate_billable,
             uom,
-            description
+            description,
+            rate
         FROM
             `tabAuxiliary Item`
         WHERE
@@ -103,6 +104,8 @@ def create_contract_from_qtn(doc, customer):
         for item in doc.items:
             contract.append('custom_items', {
                 'item': item.item_code,
+                'is_billable':item.custom_is_billable,
+                'is_auxiliary_item':item.custom_is_auxiliary_item
             })
         contract.save(ignore_permissions=True)
         if contract.name:

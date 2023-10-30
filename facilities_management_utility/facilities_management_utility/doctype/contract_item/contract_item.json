@@ -8,7 +8,9 @@
  "field_order": [
   "item",
   "item_name",
-  "employee"
+  "employee",
+  "is_auxiliary_item",
+  "is_billable"
  ],
  "fields": [
   {
@@ -30,12 +32,24 @@
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_auxiliary_item",
+   "fieldtype": "Check",
+   "label": "Is Auxiliary Item "
+  },
+  {
+   "default": "0",
+   "fieldname": "is_billable",
+   "fieldtype": "Check",
+   "label": "Is Billable"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-10-24 12:26:01.437744",
+ "modified": "2023-10-25 10:45:29.540284",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Contract Item",

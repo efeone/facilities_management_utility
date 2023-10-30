@@ -35,9 +35,11 @@ def make_sales_invoice(contract):
                             },
                         )
                         billing_rate = frappe.db.get_value('Resource Schedule', {'resource': item.employee, 'project':project}, 'rate')
-                        if item.item:
-                            target.append("items", {"item_code": item, "qty": data.billing_hours, "rate": billing_rate})
-
+                        if item.item and billing_rate:
+                            target.append("items", {"item_code": item.item, "qty": data.billing_hours, "rate": billing_rate})
+            elif item.item and item.is_billable:
+                target.append("items", {"item_code": item.item, "qty": 1})
+            
         target.save(ignore_permissions=True)
         return target
 @frappe.whitelist()
