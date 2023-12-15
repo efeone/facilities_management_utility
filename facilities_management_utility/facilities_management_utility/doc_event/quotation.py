@@ -18,6 +18,8 @@ from frappe.utils import (
     add_years
 )
 
+from erpnext.setup.utils import get_exchange_rate
+
 @frappe.whitelist()
 def create_customer_from_qtn(doc, method):
     if doc.workflow_state == 'Client Accepted':
@@ -110,15 +112,18 @@ def create_contract_from_qtn(doc, customer):
 
 
 @frappe.whitelist()
-def make_quotation(source_name, target_doc=None):
+def make_quotation_from_lead(source_name, target_doc=None):
 	def set_missing_values(source, target):
 		_set_missing_values(source, target)
-
+	print(source_name)
 	target_doc = get_mapped_doc(
 		"Lead",
 		source_name,
 		{
-			"Lead": {"doctype": "Quotation", "field_map": {"name": "party_name"}},
+			"Lead": {
+                    "doctype": "Quotation", 
+                    "field_map": {"name": "party_name"},
+            },
 			"Service Enquiry Item": {
 				"doctype": "Quotation Item",
 				"field_map": {
@@ -141,6 +146,62 @@ def make_quotation(source_name, target_doc=None):
 	target_doc.run_method("calculate_taxes_and_totals")
 
 	return target_doc
+
+@frappe.whitelist()
+def make_quotation_from_opportunity(source_name, target_doc=None):
+	def set_missing_values(source, target):
+		from erpnext.controllers.accounts_controller import get_default_taxes_and_charges
+
+		quotation = frappe.get_doc(target)
+
+		company_currency = frappe.get_cached_value("Company", quotation.company, "default_currency")
+
+		if company_currency == quotation.currency:
+			exchange_rate = 1
+		else:
+			exchange_rate = get_exchange_rate(
+				quotation.currency, company_currency, quotation.transaction_date, args="for_selling"
+			)
+
+		quotation.conversion_rate = exchange_rate
+
+		# get default taxes
+		taxes = get_default_taxes_and_charges(
+			"Sales Taxes and Charges Template", company=quotation.company
+		)
+		if taxes.get("taxes"):
+			quotation.update(taxes)
+
+		quotation.run_method("set_missing_values")
+		quotation.run_method("calculate_taxes_and_totals")
+		if not source.get("items", []):
+			quotation.opportunity = source.name
+
+	doclist = get_mapped_doc(
+		"Opportunity",
+		source_name,
+		{
+			"Opportunity": {
+				"doctype": "Quotation",
+				"field_map": {"opportunity_from": "quotation_to", "name": "enq_no", "source": "coupon_code"},
+			},
+			"Service Enquiry Item": {
+				"doctype": "Quotation Item",
+				"field_map": {
+					"parent": "prevdoc_docname",
+					"parenttype": "prevdoc_doctype",
+					"uom": "stock_uom",
+					"item_code": "item_code",
+					"no_of_resources": "qty",
+				},
+				"add_if_empty": True,
+			},
+		},
+		target_doc,
+		set_missing_values,
+	)
+
+	return doclist
 
 def _set_missing_values(source, target):
 	address = frappe.get_all(
