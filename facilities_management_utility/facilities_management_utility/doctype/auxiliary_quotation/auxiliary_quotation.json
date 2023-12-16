@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:AQO-{#####}",
+ "creation": "2023-12-14 09:53:18.848403",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "quotation",
+  "employee",
+  "column_break_7zywq",
+  "item_code",
+  "auxiliary_item_template",
+  "section_break_hgz0e",
+  "auxiliary_quotation_item"
+ ],
+ "fields": [
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Data",
+   "label": "Employee"
+  },
+  {
+   "fieldname": "auxiliary_quotation_item",
+   "fieldtype": "Table",
+   "label": "Auxiliary Quotation Item",
+   "options": "Auxiliary Quotation Item"
+  },
+  {
+   "fieldname": "auxiliary_item_template",
+   "fieldtype": "Link",
+   "label": "Auxiliary Item Template",
+   "options": "Auxiliary Item Template"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "column_break_7zywq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_hgz0e",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-15 16:07:33.398318",
+ "modified_by": "Administrator",
+ "module": "Facilities Management Utility",
+ "name": "Auxiliary Quotation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
