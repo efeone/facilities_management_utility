@@ -121,7 +121,7 @@ def make_quotation_from_lead(source_name, target_doc=None):
 		source_name,
 		{
 			"Lead": {
-                    "doctype": "Quotation", 
+                    "doctype": "Quotation",
                     "field_map": {"name": "party_name"},
             },
 			"Service Enquiry Item": {
@@ -242,4 +242,30 @@ def create_proejct_from_contarct(contract):
         project.expected_end_date = contract.end_date
         project.save(ignore_permissions=True)
 
+@frappe.whitelist()
+def get_auxiliary_quotation_data(quotation_name, item_code):
+    auxiliary_quotation_data = frappe.get_all(
+        'Auxiliary Quotation',
+        filters={'quotation': quotation_name, 'item_code': item_code},
+        fields=['name', 'employee']
+    )
 
+    # Fetch 'item' and 'amount' from 'Auxiliary Quotation Item'
+    for auxiliary_quotation in auxiliary_quotation_data:
+        auxiliary_quotation_item_data = frappe.get_all(
+            'Auxiliary Quotation Item',
+            filters={'parent': auxiliary_quotation.get('name')},
+            fields=['item', 'amount']
+        )
+        temp_dict = auxiliary_quotation.copy()
+        temp_dict.pop('name')
+
+        # Add items from auxiliary_quotation_item_data to the dictionary
+        for item in auxiliary_quotation_item_data:
+            temp_dict[item['item']] = item['amount']
+
+        # Update the dictionary in auxiliary_quotation_data with the modified temp_dict
+        auxiliary_quotation.clear()
+        auxiliary_quotation.update(temp_dict)
+
+    return auxiliary_quotation_data

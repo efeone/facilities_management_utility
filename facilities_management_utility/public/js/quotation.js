@@ -28,72 +28,81 @@ frappe.ui.form.on('Quotation', {
 });
 
 frappe.ui.form.on('Quotation Item', {
-    custom_employee_details: function (frm) {
-        var employee_dialog = new frappe.ui.Dialog({
-            title: 'Table-Test',
-            size: "extra-large",
-            fields: [
-                {
-                    fieldtype: 'HTML',
-                    fieldname: 'table_section'
+    custom_employee_details: function (frm, cdt, cdn) {
+        var quotation_name = frm.doc.name;
+        var child = locals[cdt][cdn];
+        var selected_item_code = child.item_code;
+
+        frappe.call({
+            method: 'facilities_management_utility.facilities_management_utility.doc_event.quotation.get_auxiliary_quotation_data',
+            args: {
+                quotation_name: quotation_name,
+                item_code: selected_item_code
+            },
+            callback: function (response) {
+                var auxiliaryData = response.message;
+
+                if (auxiliaryData) {
+                    var employee_dialog = new frappe.ui.Dialog({
+                        title: 'Table-Test',
+                        size: "extra-large",
+                        fields: [
+                            {
+                                fieldtype: 'HTML',
+                                fieldname: 'table_section'
+                            }
+                        ],
+                    });
+
+                    // Define the HTML structure for the editable table
+                    var tableHTML = `
+                    <style>
+                        th, td {
+                          min-width: min-content;
+                        }
+                        td input {
+                          width: 100%;
+                          box-sizing: border-box;
+                        }
+                    </style>
+                    <div style="overflow:scroll;">
+                        <table border="1">
+                            <thead min-width="100px">
+                                <tr>`;
+
+                    // Generate table headers based on keys in the first object of auxiliaryData
+                    var keys = Object.keys(auxiliaryData[0]);
+                    keys.forEach(function (key) {
+                        tableHTML += `<th>${key}</th>`;
+                    });
+
+                    tableHTML += `</tr></thead><tbody>`;
+
+                    // Populate editable table rows with data
+                    auxiliaryData.forEach(function (dataRow) {
+                        tableHTML += '<tr>';
+                        keys.forEach(function (key) {
+                            if (key === 'employee') {
+                                tableHTML += `<td>${dataRow[key]}</td>`;
+                            } else {
+                                tableHTML += `<td><input type="text" value="${dataRow[key]}"></td>`;
+                            }
+                        });
+                        tableHTML += '</tr>';
+                    });
+
+                    // Close the table HTML
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                    `;
+
+                    // Show the dialog and set HTML content
+                    employee_dialog.show();
+                    employee_dialog.fields_dict.table_section.$wrapper.html(tableHTML);
                 }
-            ],
-            // primary_action_label: 'Close',
-            // primary_action: function() {
-            //     employee_dialog.hide();
-            // }
+            },
         });
-        // Define the HTML structure for the table
-        var tableHTML = `
-        <div>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Employee</th>
-                        <th>Staff Contract salary</th>
-                        <th>Overtime</th>
-                        <th>Food</th>
-                        <th>Housing & Transport to/from work</th>
-                        <th>Visa/Transfer, Iqama & Labor card</th>
-                        <th>GOSI</th>
-                        <th>Medical Insurance (Class C)</th>
-                        <th>Vacation (21days/Year) / Gratuity (EOSB)</th>
-                        <th>Workers  Air Travel expenses</th>
-                        <th>Uniform</th>
-                        <th>Recruitment, Visa processing</th>
-                        <th>Exit Re entry</th>
-                        <th>Baladiya, Drivers License or Any other government registrations</th>
-                        <th>VAT. Taxes, COC, MOFA</th>
-                        <th>Quarantine or PCR Cost on Arrival</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>E1</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                        <td>Data 2</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        `;
-        employee_dialog.show();
-        // Set the HTML content of the field in the dialog
-        employee_dialog.fields_dict.table_section.$wrapper.html(tableHTML);
     },
 });
-
-
