@@ -9,7 +9,6 @@ class AuxiliaryQuotation(Document):
 
 @frappe.whitelist()
 def get_auxiliary_item(item_template):
-	print(item_template)
 	child_table_data = frappe.get_all('Auxiliary Item',filters={'parent': item_template},
 		fields=['item','rate']
 	)

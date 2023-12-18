@@ -301,3 +301,26 @@ def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
 
 	frappe.db.commit()
 	return "Data updated successfully"
+
+def create_auxiliary_quotation(quotation, item_code, employee, template):
+    aux_quotation_items = frappe.get_all('Auxiliary Item',filters={'parent': template},
+		fields=['item','rate']
+	)
+    aux_quotation = frappe.new_doc("Auxiliary Quotation")
+    aux_quotation.quotation = quotation
+    aux_quotation.item_code = item_code
+    aux_quotation.employee = employee
+    aux_quotation.auxiliary_item_template = template
+    for item in aux_quotation_items:
+        row = aux_quotation.append("auxiliary_quotation_item")
+        row.item = item.item
+        row.amount = item.rate
+    aux_quotation.save()
+
+@frappe.whitelist()
+def create_auxiliary_quotations(doc, method=None):
+    items = doc.items
+    for item in items:
+        for i in range (int(item.qty)):
+            employee = "E" + str(i)
+            create_auxiliary_quotation(doc.name, item.item_code, employee, "AIT-00001")
