@@ -52,6 +52,45 @@ frappe.ui.form.on('Quotation Item', {
                                 fieldname: 'table_section'
                             }
                         ],
+                        primary_action_label: 'Update',
+                        primary_action: function () {
+                          var tableRows = employee_dialog.fields_dict.table_section.$wrapper.find('tbody tr');
+
+                          var updatedData = [];
+
+                          // Loop through each table row to collect the updated values
+                          tableRows.each(function (index, row) {
+                              var rowData = {};
+
+                              // Retrieve the employee value from the first cell (assuming it's the first cell in the row)
+                              var employee = $(row).find('td:first').text().trim();
+
+                              // Retrieve input values from each cell in the row
+                              $(row).find('td').each(function (cellIndex, cell) {
+                                  var columnName = keys[cellIndex]; // Get the corresponding column name from keys array
+                                  var cellValue = $(cell).find('input').val(); // Retrieve the input value from the cell
+
+                                  // Store the cell value with the corresponding column name
+                                  rowData[columnName] = cellValue;
+                              });
+                              rowData['employee'] = employee;
+                              updatedData.push(rowData);
+                          });
+                          frappe.call({
+                              method: 'facilities_management_utility.facilities_management_utility.doc_event.quotation.update_auxiliary_quotation_data',
+                              args: {
+                                  quotation_name: quotation_name,
+                                  item_code:selected_item_code,
+                                  updated_data: updatedData
+                              },
+                              callback: function (response) {
+                                  employee_dialog.hide();
+                                  if(response.message){
+                                    frappe.throw(response.message);
+                                  }
+                              }
+                          });
+                        }
                     });
 
                     // Define the HTML structure for the editable table

@@ -19,6 +19,7 @@ from frappe.utils import (
 )
 
 from erpnext.setup.utils import get_exchange_rate
+import json
 
 @frappe.whitelist()
 def create_customer_from_qtn(doc, method):
@@ -269,3 +270,34 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
         auxiliary_quotation.update(temp_dict)
 
     return auxiliary_quotation_data
+
+@frappe.whitelist()
+def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
+	input_data = json.loads(updated_data)
+	for row_data in input_data:
+		employee = row_data.get('employee')
+
+		if employee:
+			converted_data = []
+			for item, amount in row_data.items():
+				if item != 'employee':
+					converted_data.append({'item': item, 'amount': float(amount)})
+
+			# Fetch the Auxiliary Quotation based on item_code and employee
+			auxiliary_quotations = frappe.get_all('Auxiliary Quotation',
+				filters={'quotation': quotation_name,'item_code': item_code, 'Employee': employee},
+				fields=['name']
+			)
+
+			# Update Auxiliary Quotation Item with the converted data amounts
+			for data in converted_data:
+				item_name = frappe.get_value('Auxiliary Quotation Item',
+					filters={'parent': auxiliary_quotations[0]['name'], 'item': data['item']},
+					fieldname='name'
+				)
+				if item_name:
+					# Update the amount for each item in converted_data
+					frappe.db.set_value('Auxiliary Quotation Item', item_name, 'amount', data['amount'])
+
+	frappe.db.commit()
+	return "Data updated successfully"
