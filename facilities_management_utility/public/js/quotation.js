@@ -24,8 +24,31 @@ frappe.ui.form.on('Quotation', {
         else{
             frappe.throw('Select Auxiliary Item Template')
         }
+    },
+    custom_auxiliary_value_template:function (frm) {
+      get_auxiliary_value_and_benefits(frm);
     }
 });
+
+let get_auxiliary_value_and_benefits = function (frm){
+  frappe.call({
+    method:'facilities_management_utility.facilities_management_utility.doc_event.quotation.get_auxiliary_values',
+    args: {
+      item_template: frm.doc.custom_auxiliary_value_template
+    },
+    callback: function(r) {
+      if (r.message && r.message.length > 0) {
+        frm.clear_table('custom_auxiliary_value');
+        r.message.forEach(item => {
+          let auxiliary_values = frm.add_child('custom_auxiliary_value');
+          auxiliary_values.item_description = item.item_description;
+          auxiliary_values.client_company_name = item.client_company_name;
+        });
+        frm.refresh_field('custom_auxiliary_value');
+      }
+    }
+  })
+}
 
 frappe.ui.form.on('Quotation Item', {
     custom_employee_details: function (frm, cdt, cdn) {

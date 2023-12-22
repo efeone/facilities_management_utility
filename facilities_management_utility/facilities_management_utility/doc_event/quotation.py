@@ -142,9 +142,12 @@ def make_quotation_from_lead(source_name, target_doc=None):
 	# source_doc = frappe.get_doc('Lead', source_name)
 
 	target_doc.quotation_to = "Lead"
+	target_doc.custom_auxiliary_value_template = "Auxiliary Values"
 	target_doc.run_method("set_missing_values")
 	target_doc.run_method("set_other_charges")
 	target_doc.run_method("calculate_taxes_and_totals")
+
+	target_doc = fetch_and_map_auxiliary_values(target_doc, "Auxiliary Values")
 
 	return target_doc
 
@@ -201,8 +204,27 @@ def make_quotation_from_opportunity(source_name, target_doc=None):
 		target_doc,
 		set_missing_values,
 	)
+	doclist.custom_auxiliary_value_template = "Auxiliary Values"
+	# Call the function to fetch and map auxiliary values
+	doclist = fetch_and_map_auxiliary_values(doclist, "Auxiliary Values")
 
 	return doclist
+
+def fetch_and_map_auxiliary_values(doctype, template):
+    if doctype.custom_auxiliary_value_template == template:
+        # Fetch child table data from Auxiliary Value Template
+        auxiliary_values = frappe.get_all("Auxiliary Values And Benefits",
+                                          filters={"parent": "Auxiliary Values"},
+                                          fields=["item_description", "client_company_name"])
+
+        for aux_value in auxiliary_values:
+            # Map fetched values to Quotation Item child table
+            auxiliary_values = doctype.append("custom_auxiliary_value")
+            auxiliary_values.item_description = aux_value.item_description
+            auxiliary_values.client_company_name = aux_value.client_company_name
+            # Add additional mapping as needed
+
+    return doctype
 
 def _set_missing_values(source, target):
 	address = frappe.get_all(
@@ -322,5 +344,12 @@ def create_auxiliary_quotations(doc, method=None):
     items = doc.items
     for item in items:
         for i in range (int(item.qty)):
-            employee = "E" + str(i)
+            employee = "E" + str(i+1)
             create_auxiliary_quotation(doc.name, item.item_code, employee, "AIT-00001")
+
+@frappe.whitelist()
+def get_auxiliary_values(item_template):
+	child_table_data = frappe.get_all('Auxiliary Values And Benefits',filters={'parent': item_template},
+		fields=['item_description','client_company_name']
+	)
+	return child_table_data

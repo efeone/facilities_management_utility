@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:auxiliary_value_template",
+ "creation": "2023-12-20 10:26:13.148661",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "auxiliary_value_template",
+  "auxiliary_values_and_benefits"
+ ],
+ "fields": [
+  {
+   "fieldname": "auxiliary_value_template",
+   "fieldtype": "Data",
+   "label": "Auxiliary Value Template",
+   "unique": 1
+  },
+  {
+   "fieldname": "auxiliary_values_and_benefits",
+   "fieldtype": "Table",
+   "label": "Auxiliary Values and Benefits",
+   "options": "Auxiliary Values And Benefits"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-20 10:36:24.114019",
+ "modified_by": "Administrator",
+ "module": "Facilities Management Utility",
+ "name": "Auxiliary Value Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
