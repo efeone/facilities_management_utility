@@ -1,0 +1,176 @@
+[
+ {
+  "auxiliary_items": [
+   {
+    "description": "Staff Contract salary",
+    "item": "Staff Contract salary",
+    "item_name": "Staff Contract salary",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 100.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Overtime",
+    "item": "Overtime",
+    "item_name": "Overtime",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 50.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Food",
+    "item": "Food",
+    "item_name": "Food",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 75.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Housing & Transport to/from work",
+    "item": "Housing & Transport to/from work",
+    "item_name": "Housing & Transport to/from work",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 40.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Visa/Transfer, Iqama & Labor card",
+    "item": "Visa/Transfer, Iqama & Labor card",
+    "item_name": "Visa/Transfer, Iqama & Labor card",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 26.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "GOSI",
+    "item": "GOSI",
+    "item_name": "GOSI",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 8.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Medical Insurance (Class C)",
+    "item": "Medical Insurance (Class C)",
+    "item_name": "Medical Insurance (Class C)",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 86.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Vacation (21days/Year) / Gratuity (EOSB)",
+    "item": "Vacation (21days/Year) / Gratuity (EOSB)",
+    "item_name": "Vacation (21days/Year) / Gratuity (EOSB)",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 46.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Workers  Air Travel expenses",
+    "item": "Workers  Air Travel expenses",
+    "item_name": "Workers  Air Travel expenses",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 150.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Uniform",
+    "item": "Uniform",
+    "item_name": "Uniform",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 70.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Recruitment, Visa processing",
+    "item": "Recruitment, Visa processing",
+    "item_name": "Recruitment, Visa processing",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 63.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Exit Re entry",
+    "item": "Exit Re entry",
+    "item_name": "Exit Re entry",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 100.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Baladiya, Drivers License or Any other government registrations",
+    "item": "Baladiya, Drivers License or Any other government registrations",
+    "item_name": "Baladiya, Drivers License or Any other government registrations",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 94.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "VAT. Taxes, COC, MOFA",
+    "item": "VAT. Taxes, COC, MOFA",
+    "item_name": "VAT. Taxes, COC, MOFA",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 200.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   },
+   {
+    "description": "Quarantine or PCR Cost on Arrival",
+    "item": "Quarantine or PCR Cost on Arrival",
+    "item_name": "Quarantine or PCR Cost on Arrival",
+    "parent": "Primary",
+    "parentfield": "auxiliary_items",
+    "parenttype": "Auxiliary Item Template",
+    "rate": 180.0,
+    "separate_billable": 0,
+    "uom": "Nos"
+   }
+  ],
+  "docstatus": 0,
+  "doctype": "Auxiliary Item Template",
+  "modified": "2023-12-14 13:13:07.339302",
+  "name": "Primary",
+  "template_name": "Primary"
+ }
+]
