@@ -1,0 +1,116 @@
+[
+ {
+  "auxiliary_value_template": "Auxiliary Values",
+  "auxiliary_values_and_benefits": [
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Staff Contract salary",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Excluded in Monthly billing rate, To be transferred to ELITE ALRAFD for payment.",
+    "item_description": "Overtime",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Food",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Provided By Client",
+    "item_description": "Housing & Transport to/from work",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Visa/Transfer, Iqama & Labor card",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "GOSI",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Medical Insurance (Class C)",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Vacation (21days/Year) / Gratuity (EOSB)",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Workers  Air Travel expenses",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "By Client / If  ELITE ALRAFD  will be invoiced for actual cost",
+    "item_description": "Uniform",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Recruitment, Visa processing",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "Included in Monthly Billing Rate",
+    "item_description": "Exit Re entry",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "By client against actual cost",
+    "item_description": "Baladiya, Drivers License or Any other government registrations",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "By client against actual cost",
+    "item_description": "VAT. Taxes, COC, MOFA",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   },
+   {
+    "client_company_name": "By client against actual cost",
+    "item_description": "Quarantine or PCR Cost on Arrival",
+    "parent": "Auxiliary Values",
+    "parentfield": "auxiliary_values_and_benefits",
+    "parenttype": "Auxiliary Value Template"
+   }
+  ],
+  "docstatus": 0,
+  "doctype": "Auxiliary Value Template",
+  "modified": "2023-12-20 10:37:01.958190",
+  "name": "Auxiliary Values"
+ }
+]
