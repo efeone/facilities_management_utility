@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-13 15:06:11.817823",
+  "name": "Approve",
+  "workflow_action_name": "Approve"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-13 15:06:11.819187",
+  "name": "Reject",
+  "workflow_action_name": "Reject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-13 15:06:11.820485",
+  "name": "Review",
+  "workflow_action_name": "Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-22 12:11:11.172603",
+  "name": "Send for Client Review",
+  "workflow_action_name": "Send for Client Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-22 12:11:37.526655",
+  "name": "Client Accepted",
+  "workflow_action_name": "Client Accepted"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2023-12-22 12:12:21.789881",
+  "name": "Client Rejected",
+  "workflow_action_name": "Client Rejected"
+ }
+]

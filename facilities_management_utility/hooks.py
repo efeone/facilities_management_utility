@@ -219,3 +219,7 @@ doc_events = {
 # auth_hooks = [
 #	"facilities_management_utility.auth.validate"
 # ]
+
+# Fixtures
+# --------------------------------
+fixtures = [{'dt': "Workflow Action Master"},{'dt': "Workflow State"},{'dt': "Workflow"}]
