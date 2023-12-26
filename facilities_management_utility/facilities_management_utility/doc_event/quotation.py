@@ -88,9 +88,16 @@ def get_auxiliary_item(template_name):
 frappe.whitelist()
 def create_contract_from_qtn(doc, customer):
     if customer:
+        lead = frappe.get_doc('Lead', doc.party_name)
         contract = frappe.new_doc('Contract')
         contract.party_type = 'Customer'
         contract.party_name = customer
+        contract.custom_organization_name = lead.company_name
+        contract.custom_position = lead.job_title
+        contract.custom_email = lead.email_id
+        contract.custom_mobile_no = lead.mobile_no
+        contract.document_type = 'Quotation'
+        contract.document_name = doc.name
         contract.start_date = today()
         if doc.custom_contract_period == '1 Year':
             contract.end_date = add_years(today(), 1)
@@ -349,7 +356,7 @@ def create_auxiliary_quotations(doc, method=None):
     items = doc.items
     for item in items:
         for i in range (1, int(item.qty)+1):
-            employee = "Employee " + str(i+1)
+            employee = "Employee " + str(i)
             create_auxiliary_quotation(doc.name, item.item_code, employee, "Primary")
 
 @frappe.whitelist()
