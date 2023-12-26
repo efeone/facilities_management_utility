@@ -96,7 +96,6 @@ frappe.ui.form.on('Quotation Item', {
                                   // Store the cell value with the corresponding column name
                                   rowData[columnName] = cellValue;
                               });
-                              rowData['employee'] = employee;
                               updatedData.push(rowData);
                           });
                           frappe.call({
@@ -119,18 +118,34 @@ frappe.ui.form.on('Quotation Item', {
                     // Define the HTML structure for the editable table
                     var tableHTML = `
                     <style>
+                        .scrollable-table {
+                        overflow-x: auto;
+                        }
+
+                        table {
+                            border-collapse: collapse; 
+                            max-width: 300px;
+                        }
+
+                        thead {
+                            background-color: #f5f5e6;
+                        }
+
                         th, td {
-                          min-width: min-content;
+                        text-align: left;
+                        padding: 8px; /* Adjust padding as needed */
+                        border: 1px solid #ddd; /* Optional: Add borders */
                         }
+
                         td input {
-                          width: 100%;
-                          box-sizing: border-box;
-                        }
+                            border: none
+                          }
                     </style>
-                    <div style="overflow:scroll;">
-                        <table border="1">
-                            <thead min-width="100px">
-                                <tr>`;
+
+                    <div class="scrollable-table">
+                    <table id="dynamic-table">
+                    <thead>
+                    <tr>`;
 
                     // Generate table headers based on keys in the first object of auxiliaryData
                     var keys = Object.keys(auxiliaryData[0]);

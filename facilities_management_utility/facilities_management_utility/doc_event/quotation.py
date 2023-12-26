@@ -34,6 +34,7 @@ def create_customer_from_qtn(doc, method):
                 customer.customer_type = 'Individual'
                 customer.customer_name = lead.lead_name
             customer.customer_group = frappe.db.get_default("Customer Group")
+            customer.territory = frappe.db.get_default("Territory")
             lead_name = lead.name
             address = frappe.get_all(
                 "Dynamic Link",
@@ -109,7 +110,7 @@ def create_contract_from_qtn(doc, customer):
             })
         contract.save(ignore_permissions=True)
         if contract.name:
-            create_proejct_from_contarct(contract)
+            create_project_from_contract(contract)
 
 
 @frappe.whitelist()
@@ -255,7 +256,7 @@ def _set_missing_values(source, target):
 	if contact:
 		target.contact_person = contact[0].parent
 
-def create_proejct_from_contarct(contract):
+def create_project_from_contract(contract):
      if contract:
         project = frappe.new_doc('Project')
         project.customer = contract.party_name
@@ -270,7 +271,8 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
     auxiliary_quotation_data = frappe.get_all(
         'Auxiliary Quotation',
         filters={'quotation': quotation_name, 'item_code': item_code},
-        fields=['name', 'employee']
+        fields=['name', 'employee'],
+        order_by='employee asc'
     )
 
     # Fetch 'item' and 'amount' from 'Auxiliary Quotation Item'
@@ -278,10 +280,13 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
         auxiliary_quotation_item_data = frappe.get_all(
             'Auxiliary Quotation Item',
             filters={'parent': auxiliary_quotation.get('name')},
-            fields=['item', 'amount']
+            fields=['item', 'amount'],
+            order_by='item asc'
         )
         temp_dict = auxiliary_quotation.copy()
         temp_dict.pop('name')
+        temp_dict['Employee'] = temp_dict['employee'].capitalize()
+        temp_dict.pop('employee')
 
         # Add items from auxiliary_quotation_item_data to the dictionary
         for item in auxiliary_quotation_item_data:
@@ -297,17 +302,17 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
 def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
 	input_data = json.loads(updated_data)
 	for row_data in input_data:
-		employee = row_data.get('employee')
+		employee = row_data.get('Employee')
 
 		if employee:
 			converted_data = []
 			for item, amount in row_data.items():
-				if item != 'employee':
+				if item != 'Employee':
 					converted_data.append({'item': item, 'amount': float(amount)})
 
 			# Fetch the Auxiliary Quotation based on item_code and employee
 			auxiliary_quotations = frappe.get_all('Auxiliary Quotation',
-				filters={'quotation': quotation_name,'item_code': item_code, 'Employee': employee},
+				filters={'quotation': quotation_name,'item_code': item_code, 'employee': employee},
 				fields=['name']
 			)
 
@@ -343,9 +348,9 @@ def create_auxiliary_quotation(quotation, item_code, employee, template):
 def create_auxiliary_quotations(doc, method=None):
     items = doc.items
     for item in items:
-        for i in range (int(item.qty)):
-            employee = "E" + str(i+1)
-            create_auxiliary_quotation(doc.name, item.item_code, employee, "AIT-00001")
+        for i in range (1, int(item.qty)+1):
+            employee = "Employee " + str(i+1)
+            create_auxiliary_quotation(doc.name, item.item_code, employee, "Primary")
 
 @frappe.whitelist()
 def get_auxiliary_values(item_template):
