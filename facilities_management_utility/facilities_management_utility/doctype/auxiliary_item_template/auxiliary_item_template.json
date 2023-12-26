@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:AIT-{#####}",
+ "autoname": "field:template_name",
  "creation": "2023-10-22 05:48:17.920696",
  "default_view": "List",
  "doctype": "DocType",
@@ -16,22 +16,25 @@
    "fieldname": "auxiliary_items",
    "fieldtype": "Table",
    "label": "Auxiliary Items",
-   "options": "Auxiliary Item"
+   "options": "Auxiliary Item",
+   "reqd": 1
   },
   {
    "fieldname": "template_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Template Name"
+   "label": "Template Name",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-10-23 13:15:50.578998",
+ "modified": "2023-12-22 11:15:18.400413",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Auxiliary Item Template",
- "naming_rule": "Expression",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
