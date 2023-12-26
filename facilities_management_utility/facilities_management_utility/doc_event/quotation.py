@@ -357,7 +357,7 @@ def create_auxiliary_quotations(doc, method=None):
     for item in items:
         for i in range (1, int(item.qty)+1):
             employee = "Employee " + str(i)
-            create_auxiliary_quotation(doc.name, item.item_code, employee, "Primary")
+            create_auxiliary_quotation(doc.name, item.item_code, employee, doc.custom_contract_template)
 
 @frappe.whitelist()
 def get_auxiliary_values(item_template):
