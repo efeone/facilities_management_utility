@@ -71,3 +71,24 @@ def _set_missing_values(source, target):
 
 	if contact:
 		target.contact_person = contact[0].parent
+
+@frappe.whitelist()
+def create_or_set_item(doc, method=None):
+	doc.custom_total_resources = 0
+	for service_item in doc.custom_service_enquiry_items:
+		doc.custom_total_resources += service_item.no_of_resources
+		item_code = service_item.skill_category + '-' + service_item.nationality + '-' + service_item.gender
+		item = frappe.db.exists('Item', item_code)
+		if item:
+			service_item.item_code = item
+		else:
+			new_item = frappe.new_doc('Item')
+			new_item.item_code = item_code
+			new_item.item_name = service_item.skill_category
+			new_item.item_group = frappe.db.get_default('Item Group')
+			new_item.custom_skill = service_item.skill_category
+			new_item.custom_nationality = service_item.nationality
+			new_item.custom_gender = service_item.gender
+			new_item.save()
+			service_item.item_code = new_item.name
+			
