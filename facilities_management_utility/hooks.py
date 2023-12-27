@@ -229,5 +229,5 @@ doc_events = {
 # Fixtures
 # --------------------------------
 fixtures = [{'dt': "Workflow Action Master"},{'dt': "Workflow State"},{'dt': "Workflow"},
-	{'dt':"Auxiliary Value Template"},{'dt':"Auxiliary Item Template"}
+	{'dt':"Auxiliary Value Template"},{'dt':"Auxiliary Item Template"}, {'dt':"Contract Template"}
 ]
