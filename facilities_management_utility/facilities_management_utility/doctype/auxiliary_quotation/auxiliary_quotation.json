@@ -12,6 +12,8 @@
   "employee",
   "column_break_7zywq",
   "item_code",
+  "staff_contract_salary",
+  "column_break_x0b2d",
   "auxiliary_item_template",
   "section_break_hgz0e",
   "auxiliary_quotation_item"
@@ -53,11 +55,22 @@
   {
    "fieldname": "section_break_hgz0e",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "item_code.valuation_rate",
+   "fetch_if_empty": 1,
+   "fieldname": "staff_contract_salary",
+   "fieldtype": "Data",
+   "label": "Staff Contract Salary"
+  },
+  {
+   "fieldname": "column_break_x0b2d",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-15 16:07:33.398318",
+ "modified": "2023-12-27 13:05:41.223011",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Auxiliary Quotation",

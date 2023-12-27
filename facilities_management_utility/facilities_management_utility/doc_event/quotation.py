@@ -278,7 +278,7 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
     auxiliary_quotation_data = frappe.get_all(
         'Auxiliary Quotation',
         filters={'quotation': quotation_name, 'item_code': item_code},
-        fields=['name', 'employee'],
+        fields=['name', 'employee', 'staff_contract_salary'],
         order_by='employee asc'
     )
 
@@ -293,7 +293,9 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
         temp_dict = auxiliary_quotation.copy()
         temp_dict.pop('name')
         temp_dict['Employee'] = temp_dict['employee'].capitalize()
+        temp_dict['Staff Contract Salary'] = temp_dict['staff_contract_salary']
         temp_dict.pop('employee')
+        temp_dict.pop('staff_contract_salary')
 
         # Add items from auxiliary_quotation_item_data to the dictionary
         for item in auxiliary_quotation_item_data:
@@ -307,10 +309,11 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
 
 @frappe.whitelist()
 def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
+	print(updated_data)
 	input_data = json.loads(updated_data)
 	for row_data in input_data:
 		employee = row_data.get('Employee')
-
+		contract_salary = row_data.get('Staff Contract Salary')
 		if employee:
 			converted_data = []
 			for item, amount in row_data.items():
@@ -322,7 +325,7 @@ def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
 				filters={'quotation': quotation_name,'item_code': item_code, 'employee': employee},
 				fields=['name']
 			)
-
+			frappe.db.set_value('Auxiliary Quotation', auxiliary_quotations[0]['name'], 'staff_contract_salary', contract_salary)
 			# Update Auxiliary Quotation Item with the converted data amounts
 			for data in converted_data:
 				item_name = frappe.get_value('Auxiliary Quotation Item',
