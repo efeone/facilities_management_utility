@@ -15,6 +15,7 @@
   "staff_contract_salary",
   "column_break_x0b2d",
   "auxiliary_item_template",
+  "monthly_salary",
   "section_break_hgz0e",
   "auxiliary_quotation_item"
  ],
@@ -66,11 +67,16 @@
   {
    "fieldname": "column_break_x0b2d",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "monthly_salary",
+   "fieldtype": "Data",
+   "label": "Monthly Salary"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-27 13:05:41.223011",
+ "modified": "2023-12-29 10:30:48.764027",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Auxiliary Quotation",
