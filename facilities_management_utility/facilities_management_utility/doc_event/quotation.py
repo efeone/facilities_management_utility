@@ -308,50 +308,55 @@ def get_auxiliary_quotation_data(quotation_name, item_code):
     return auxiliary_quotation_data
 
 @frappe.whitelist()
-def update_auxiliary_quotation_data(quotation_name,item_code, updated_data):
-	print(updated_data)
-	input_data = json.loads(updated_data)
-	for row_data in input_data:
-		employee = row_data.get('Employee')
-		contract_salary = row_data.get('Staff Contract Salary')
-		if employee:
-			converted_data = []
-			for item, amount in row_data.items():
-				if item != 'Employee':
-					converted_data.append({'item': item, 'amount': float(amount)})
+def update_auxiliary_quotation_data(quotation_name, item_code, updated_data):
+    input_data = json.loads(updated_data)
+    for row_data in input_data:
+        employee = row_data.get('Employee')
+        contract_salary = row_data.get('Staff Contract Salary')
+        if employee:
+            converted_data = []
+            for item, amount in row_data.items():
+                if item != 'Employee':
+                    converted_data.append({'item': item, 'amount': float(amount)})
 
-			# Fetch the Auxiliary Quotation based on item_code and employee
-			auxiliary_quotations = frappe.get_all('Auxiliary Quotation',
-				filters={'quotation': quotation_name,'item_code': item_code, 'employee': employee},
-				fields=['name']
-			)
-			frappe.db.set_value('Auxiliary Quotation', auxiliary_quotations[0]['name'], 'staff_contract_salary', contract_salary)
-			# Update Auxiliary Quotation Item with the converted data amounts
-			for data in converted_data:
-				item_name = frappe.get_value('Auxiliary Quotation Item',
-					filters={'parent': auxiliary_quotations[0]['name'], 'item': data['item']},
-					fieldname='name'
-				)
-				if item_name:
-					# Update the amount for each item in converted_data
-					frappe.db.set_value('Auxiliary Quotation Item', item_name, 'amount', data['amount'])
+            auxiliary_quotations = frappe.get_all('Auxiliary Quotation',
+                                                 filters={'quotation': quotation_name, 'item_code': item_code,
+                                                          'employee': employee},
+                                                 fields=['name']
+                                                 )
+            frappe.db.set_value('Auxiliary Quotation', auxiliary_quotations[0]['name'], 'staff_contract_salary',
+                                contract_salary)
+            total_amount = 0
+            for data in converted_data:
+                item_name = frappe.get_value('Auxiliary Quotation Item',
+                                             filters={'parent': auxiliary_quotations[0]['name'], 'item': data['item']},
+                                             fieldname='name'
+                                             )
+                if item_name:
+                    frappe.db.set_value('Auxiliary Quotation Item', item_name, 'amount', data['amount'])
+                    total_amount += data['amount']
 
-	frappe.db.commit()
-	return "Data updated successfully"
+            frappe.db.set_value('Auxiliary Quotation', auxiliary_quotations[0]['name'], 'monthly_salary', total_amount)
+
+    frappe.db.commit()
+    return "Data updated successfully"
 
 def create_auxiliary_quotation(quotation, item_code, employee, template):
-    aux_quotation_items = frappe.get_all('Auxiliary Item',filters={'parent': template},
-		fields=['item','rate']
-	)
+    aux_quotation_items = frappe.get_all('Auxiliary Item', filters={'parent': template},fields=['item', 'rate'])
     aux_quotation = frappe.new_doc("Auxiliary Quotation")
     aux_quotation.quotation = quotation
     aux_quotation.item_code = item_code
     aux_quotation.employee = employee
     aux_quotation.auxiliary_item_template = template
+    total_amount = 0
+
     for item in aux_quotation_items:
         row = aux_quotation.append("auxiliary_quotation_item")
         row.item = item.item
         row.amount = item.rate
+        total_amount += item.rate
+
+    aux_quotation.monthly_salary = total_amount
     aux_quotation.save()
 
 @frappe.whitelist()
