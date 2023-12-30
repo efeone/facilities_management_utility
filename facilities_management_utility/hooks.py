@@ -126,7 +126,8 @@ doctype_js = {
 doc_events = {
 	"Quotation": {
 		"on_submit": "facilities_management_utility.facilities_management_utility.doc_event.quotation.create_customer_from_qtn",
-        "after_insert": "facilities_management_utility.facilities_management_utility.doc_event.quotation.create_auxiliary_quotations",
+        "after_insert": ["facilities_management_utility.facilities_management_utility.doc_event.quotation.create_auxiliary_quotations",
+						"facilities_management_utility.facilities_management_utility.doc_event.quotation.set_quotation_item_rates"],
 	},
     "Lead": {
         "validate": "facilities_management_utility.facilities_management_utility.doc_event.lead.create_or_set_item"

@@ -61,7 +61,7 @@
    "fetch_from": "item_code.valuation_rate",
    "fetch_if_empty": 1,
    "fieldname": "staff_contract_salary",
-   "fieldtype": "Data",
+   "fieldtype": "Currency",
    "label": "Staff Contract Salary"
   },
   {
@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-29 10:30:48.764027",
+ "modified": "2023-12-29 16:17:33.036630",
  "modified_by": "Administrator",
  "module": "Facilities Management Utility",
  "name": "Auxiliary Quotation",

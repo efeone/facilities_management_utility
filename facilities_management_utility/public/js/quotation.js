@@ -55,12 +55,14 @@ frappe.ui.form.on('Quotation Item', {
         var quotation_name = frm.doc.name;
         var child = locals[cdt][cdn];
         var selected_item_code = child.item_code;
+        var quantity = child.qty;
 
         frappe.call({
             method: 'facilities_management_utility.facilities_management_utility.doc_event.quotation.get_auxiliary_quotation_data',
             args: {
                 quotation_name: quotation_name,
-                item_code: selected_item_code
+                item_code: selected_item_code,
+                quantity:quantity
             },
             callback: function (response) {
                 var auxiliaryData = response.message;
@@ -108,7 +110,7 @@ frappe.ui.form.on('Quotation Item', {
                               callback: function (response) {
                                   employee_dialog.hide();
                                   if(response.message){
-                                    frappe.throw(response.message);
+                                    frappe.msgprint(response.message);
                                   }
                               }
                           });
@@ -123,7 +125,7 @@ frappe.ui.form.on('Quotation Item', {
                         }
 
                         table {
-                            border-collapse: collapse; 
+                            border-collapse: collapse;
                             max-width: 300px;
                         }
 

@@ -338,16 +338,20 @@ def update_auxiliary_quotation_data(quotation_name, item_code, updated_data):
 
             frappe.db.set_value('Auxiliary Quotation', auxiliary_quotations[0]['name'], 'monthly_salary', total_amount)
 
+    auxiliary_quotation_doc = frappe.get_doc("Auxiliary Quotation", auxiliary_quotations[0]['name'])
+    auxiliary_quotation_doc.save()
     frappe.db.commit()
     return "Data updated successfully"
 
 def create_auxiliary_quotation(quotation, item_code, employee, template):
     aux_quotation_items = frappe.get_all('Auxiliary Item', filters={'parent': template},fields=['item', 'rate'])
     aux_quotation = frappe.new_doc("Auxiliary Quotation")
+    item = frappe.get_doc('Item',item_code)
     aux_quotation.quotation = quotation
     aux_quotation.item_code = item_code
     aux_quotation.employee = employee
     aux_quotation.auxiliary_item_template = template
+    aux_quotation.staff_contract_salary = item.valuation_rate
     total_amount = 0
 
     for item in aux_quotation_items:
@@ -373,3 +377,58 @@ def get_auxiliary_values(item_template):
 		fields=['item_description','client_company_name']
 	)
 	return child_table_data
+
+@frappe.whitelist()
+def set_quotation_item_rates(doc, method=None):
+	items = doc.items
+	for item in items:
+		auxiliary_quotation_data = frappe.get_all(
+	        'Auxiliary Quotation',
+	        filters={'quotation': doc.name, 'item_code': item.item_code},
+	        fields=['name', 'employee', 'staff_contract_salary','monthly_salary']
+	    )
+		monthly_basic_salary = calculate_basic_salary(doc.name, item.item_code, auxiliary_quotation_data, item.qty);
+		monthly_food = calculate_food_amount(doc.name, item.item_code, auxiliary_quotation_data, item.qty);
+		total_expense = calculate_total_amount(doc.name, item.item_code, auxiliary_quotation_data, item.qty);
+		item.custom_monthly_basic_salary = monthly_basic_salary
+		item.custom_monthly_food = monthly_food
+		item.amount = total_expense
+		item.rate = item.amount/item.qty
+	doc.save()
+
+@frappe.whitelist()
+def calculate_basic_salary(quotation_name, item_code, auxiliary_quotation_data, quantity):
+	total_basic_salary = 0
+	for auxiliary_quotation in auxiliary_quotation_data:
+		total_basic_salary += int(auxiliary_quotation['staff_contract_salary'])
+
+	monthly_basic_salary = total_basic_salary/quantity
+
+	return monthly_basic_salary
+
+@frappe.whitelist()
+def calculate_food_amount(quotation_name, item_code, auxiliary_quotation_data, quantity):
+	food_amount = 0
+
+	for auxiliary_quotation in auxiliary_quotation_data:
+		auxiliary_quotation_item_data = frappe.get_all(
+			'Auxiliary Quotation Item',
+			filters={'parent': auxiliary_quotation.get('name')},
+			fields=['item', 'amount'],
+		)
+		for item_data in auxiliary_quotation_item_data:
+			if item_data['item'] == 'Food':
+				food_amount += item_data['amount']
+
+	monthly_food_amount = food_amount/quantity
+
+	return monthly_food_amount
+
+@frappe.whitelist()
+def calculate_total_amount(quotation_name, item_code, auxiliary_quotation_data, quantity):
+	total_amount = 0
+
+	for auxiliary_quotation in auxiliary_quotation_data:
+		total_amount += int(auxiliary_quotation['staff_contract_salary']) + float(auxiliary_quotation['monthly_salary'])
+
+	return total_amount
