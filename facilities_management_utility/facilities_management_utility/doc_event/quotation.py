@@ -394,7 +394,6 @@ def set_quotation_item_rates(doc, method=None):
 		item.custom_monthly_food = monthly_food
 		item.amount = total_expense
 		item.rate = item.amount/item.qty
-	doc.save()
 
 @frappe.whitelist()
 def calculate_basic_salary(quotation_name, item_code, auxiliary_quotation_data, quantity):
